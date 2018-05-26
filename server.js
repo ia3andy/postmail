@@ -24,22 +24,25 @@ const config = {
 
 
 if(!config.transporter.email){
-  log.error("Please set TRANSPORTER_EMAIL");
+  console.error("Please set TRANSPORTER_EMAIL");
+  return;
 }
 
 if(!config.transporter.password){
-  log.error("Please set TRANSPORTER_PASSWORD");
+  console.error("Please set TRANSPORTER_PASSWORD");
+  return;
 }
 
-if(!config.email){
-  log.error("Please set EMAIL");
+if(!config.destinationEmail){
+  console.error("Please set DESTINATION_EMAIL");
+  return;
 }
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: transporterEmail,
-    pass: transporterPassword
+    user: config.transporter.email,
+    pass: config.transporter.password
   }
 });
 
@@ -54,7 +57,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/postmail', function(req, res) {
   res.status(200).send("Service Available");
-};
+});
 
 app.post('/postmail', function(req, res) {
   console.log(req.body);
