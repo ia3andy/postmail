@@ -5,9 +5,9 @@ Email subject (Optional, default: "[POSTMAIL]"):
 $ export SUBJECT = "[POSTMAIL]"
 ```
 
-Allow only one origin to send request:
+Allow only one origin to send request (endsWith):
 ```bash
-$ export AUTHORIZED_ORIGIN = "mydomain.com"
+$ export ALLOW_ORIGIN = "mydomain.com"
 ```
 
 Only the email service gmail is available for now:

@@ -14,7 +14,7 @@ const app = express();
 
 const config = {
   subjectPrefix: process.env.SUBJECT || '[POSTMAIL]',
-  authorizedOrigin: process.env.AUTHORIZED_ORIGIN,
+  allowOrigin: process.env.ALLOW_ORIGIN,
   transporter: {
     email: process.env.TRANSPORTER_EMAIL,
     password: process.env.TRANSPORTER_PASSWORD
@@ -46,13 +46,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-if(config.authorizedOrigin) {
-  app.use(function(req, res, next) {
-    if (req.headers.origin.match(`^${config.authorizedOrigin}(:[0-9]+)?`) == null ) res.status(403).send('Unauthorized request');
-    else next();
-  });
-}
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/postmail', function(req, res) {
@@ -60,7 +53,11 @@ app.get('/postmail', function(req, res) {
 });
 
 app.post('/postmail', function(req, res) {
-  console.log(req.body);
+
+  if (config.allowOrigin && !req.headers.origin.endsWith(config.allowOrigin)) {
+    res.status(403).send('Unauthorized request');
+    return;
+  }
 
   const subject = req.body.subject ? `${config.subjectPrefix} ${req.body.subject}` : config.subjectPrefix;
 
