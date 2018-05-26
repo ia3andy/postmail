@@ -1,0 +1,16 @@
+{
+  "name": "y",
+  "version": "0.0.1",
+  "description": "A node docker container that receive post forms and transmit them by email",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "ia3andy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.1",
+    "nodemailer": "^4.6.5",
+    "underscore": "^1.9.0"
+  }
+}
